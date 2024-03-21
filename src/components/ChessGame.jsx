@@ -15,6 +15,8 @@ export default function ChessGame({opening}) {
     if (opening) {
       const filtered = openingsArray.filter(op => op.name.toLowerCase().includes(opening.toLowerCase()));
       setFilteredOpenings(filtered);
+      setGame(new Chess());
+      setIsGameOver(false);
     } else {
       setFilteredOpenings([]);
     }
