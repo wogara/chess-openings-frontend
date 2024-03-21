@@ -1,12 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Chessboard } from 'react-chessboard';
 //const Chess = require('chess.js').Chess;
 import {Chess} from "chess.js";
+import openingsData from '../data/eco_interpolated.json';
 
-export default function ChessGame() {
+export default function ChessGame({opening}) {
   console.log('rendered');
   const [game, setGame] = useState(new Chess());
   const [isGameOver, setIsGameOver] = useState(false);
+  const [filteredOpenings, setFilteredOpenings] = useState([]);
+
+  useEffect(() => {
+    const openingsArray = Object.values(openingsData);
+    if (opening) {
+      const filtered = openingsArray.filter(op => op.name.toLowerCase().includes(opening.toLowerCase()));
+      setFilteredOpenings(filtered);
+    } else {
+      setFilteredOpenings([]);
+    }
+  }, [opening]);
 
   function makeAMove(move) {
     const gameCopy = { ...game };
